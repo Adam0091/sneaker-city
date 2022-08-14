@@ -2,16 +2,18 @@
   <header class="header">
     <div class="header__container">
       <div class="header__logo">
-        <div class="header__wrapper-img">
-          <img src="@/assets/images/headerLogo.png" alt="logo">
-        </div>
+        <router-link to="/">
+          <div class="header__wrapper-img">
+            <img src="@/assets/images/headerLogo.png" alt="logo">
+          </div>
+        </router-link>
         <h1 class="header__title">SC.</h1>
       </div>
 
       <nav class="header__nav">
         <ul class="nav__list">
-          <li class="nav__item" v-for="category in categories" :key="category"
-          @click.prevent="$emit('changeCategory', category)">
+          <li class="nav__item" :class="{ 'nav__item--active': activeCategory === category }"
+            v-for="category in categories" :key="category" @click.prevent="handleCategory(category)">
             {{ category }}
           </li>
         </ul>
@@ -33,17 +35,27 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, defineEmits } from 'vue'
 
-const categories = ref<string[]>(['all'])
+import { GET_CATEGORIES } from '@/utils/network'
+import { categoriesEnums } from '@/types/enums'
+
+const categories = ref<string[]>([categoriesEnums.All])
+const activeCategory = ref<string>(categoriesEnums.All)
+const emit = defineEmits(['changeCategory'])
 
 onMounted(async () => {
-  const res = await fetch('https://fakestoreapi.com/products/categories')
-    .then(res => res.json())
+  const res = await GET_CATEGORIES()
   res.forEach((item: string) => {
     categories.value.push(item)
   })
 })
+
+const handleCategory = (category: string) => {
+  activeCategory.value = category
+  emit('changeCategory', category)
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -103,6 +115,12 @@ onMounted(async () => {
     color: #000000;
 
     cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover:not(.nav__item--active) {
+      font-size: 15px;
+      color: #2e2222;
+    }
   }
 
   &__item--active {
@@ -118,6 +136,11 @@ onMounted(async () => {
 
   &__logo {
     cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
   }
 }
 </style>
