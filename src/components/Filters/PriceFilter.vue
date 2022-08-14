@@ -1,17 +1,6 @@
 <template>
   <div class="price-filter">
-    <div class="price-filter__input-wrapper">
-      <div class="slider">
-        <div ref="progress" class="progress"></div>
-      </div>
-      <div class="range-input">
-        <input class="range-min" type="range" min="0" max="1000" step="10" v-model.number="range1"
-          @input="updateRange" />
-        <input class="range-max" type="range" min="0" max="1000" step="10" v-model.number="range2"
-          @input="updateRange" />
-      </div>
-    </div>
-
+    <UiInputRanges :min="0" :max="1000" :double="true" :step="10" :margin="10" @inputRange="updatePrice" />
     <div class="price-filter__prices">
       <span class="prices__value">{{ range1 }}RWF</span>
       <span class="prices__value">{{ range2 }}RWF</span>
@@ -22,83 +11,25 @@
 
 <script setup lang="ts">
 import { ref, defineEmits } from 'vue'
+import UiInputRanges from '@/components/UI/UiInputRange.vue'
 
-const progress = ref<any>(null)
-const emit = defineEmits(['inputRange'])
+const emit = defineEmits(['updateFilter'])
 
 const range1 = ref(0)
 const range2 = ref(1000)
 
-const updateRange = (event: any) => {
-  if (range1.value >= range2.value) {
-    if (event.target.className === 'range-min') {
-      range1.value = range2.value - 100
-    } else {
-      range2.value = range1.value + 100
-    }
-  }
-  if (event.target.className === 'range-min') {
-    emit('inputRange', 'min', range1)
-    progress.value.style.left = range1.value / 1000 * 100 + '%'
-  } else {
-    emit('inputRange', 'max', range2)
-    progress.value.style.right = (100 - range2.value / 1000 * 100) + '%'
+const updatePrice = (type: string, value: number) => {
+  if (type === 'min') {
+    range1.value = value
+    emit('updateFilter', 'min', range1.value)
+  } if (type === 'max') {
+    range2.value = value
+    emit('updateFilter', 'max', range2.value)
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.slider {
-  position: relative;
-
-  height: 2px;
-  background-color: rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
-}
-
-.slider .progress {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  height: 2px;
-  background-color: #000000;
-  border-radius: 5px;
-}
-
-.range-input {
-  position: relative;
-}
-
-.range-input input {
-  position: absolute;
-  top: -4px;
-  height: 5px;
-  width: 100%;
-  background: none;
-  pointer-events: none;
-  -webkit-appearance: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  height: 12px;
-  width: 12px;
-  -webkit-appearance: none;
-  pointer-events: auto;
-  border-radius: 50%;
-  background: #000000;
-}
-
-input[type="range"]::-moz-range-thumb {
-  height: 12px;
-  width: 12px;
-  border: none;
-  border-radius: 50%;
-  -moz-appearance: none;
-  pointer-events: auto;
-  border-radius: 50%;
-  background: #000000;
-}
-
 .price-filter {
   margin-top: 23px;
 

@@ -1,32 +1,25 @@
 <template>
-  <div class="price-filter">
-    <div class="price-filter__input-wrapper">
-      <div class="slider">
-        <div ref="progress" class="progress"></div>
-      </div>
-      <div class="range-input">
-        <input class="range-max" type="range" min="0" max="5" step="0.1" v-model.number="range2" @input="updateRange" />
-      </div>
-    </div>
+  <div class="rating-filter">
+    <UiInputRanges :min="0" :max="5" :step="0.1" :double="false" :margin="0" @inputRange="updateRating" />
 
-    <div class="price-filter__prices">
-      <span class="prices__value">{{ 0 }}</span>
-      <span class="prices__value">{{ range2 }}</span>
+    <div class="rating-filter__prices">
+      <span class="rating__value">{{ 0 }}</span>
+      <span class="rating__value">{{ range2 }}</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, defineEmits } from 'vue'
+import UiInputRanges from '@/components/UI/UiInputRange.vue'
 
-const progress = ref<any>(null)
-const emit = defineEmits(['inputRange'])
+const emit = defineEmits(['updateFilter'])
 
 const range2 = ref(5)
 
-const updateRange = (event: any) => {
-  emit('inputRange', 'rating', range2)
-  progress.value.style.right = (100 - range2.value / 5 * 100) + '%'
+const updateRating = (type: string, value: number) => {
+  range2.value = value
+  emit('updateFilter', 'rating', value)
 }
 </script>
 
@@ -42,7 +35,7 @@ const updateRange = (event: any) => {
 .slider .progress {
   position: absolute;
   left: 0%;
-  right: 0%;
+  right: 100%;
   height: 2px;
   background-color: #000000;
   border-radius: 5px;
@@ -82,7 +75,7 @@ input[type="range"]::-moz-range-thumb {
   background: #000000;
 }
 
-.price-filter {
+.rating-filter {
   margin-top: 23px;
 
   &__prices {
@@ -93,7 +86,7 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-.prices {
+.rating {
 
   &__value {
     font-weight: 400;

@@ -4,7 +4,7 @@
       <div class="filters__item" v-for="filter in filtersComponents" :key="filter.name">
         <span class="filters__title">{{ filter.name }}</span>
         <div class="filters__container">
-          <component :is="filter.component" @input-range="inputRange"></component>
+          <component :is="filter.component" @update-filter="updateFilter"></component>
         </div>
       </div>
     </div>
@@ -33,12 +33,12 @@ const filtersComponents = ref([
     component: PriceFilter
   },
   {
-    name: 'Rating range',
+    name: 'Rating',
     component: RatingFilter
   }
 ])
 
-const inputRange = (type: string, value: number) => {
+const updateFilter = (type: string, value: number) => {
   if (type === 'max') {
     filterOptions.value.price.max = value
   }
@@ -53,7 +53,7 @@ const inputRange = (type: string, value: number) => {
     filterOptions.value.rating = value
   }
 
-  emit('changeFilter', filterOptions)
+  emit('changeFilter', filterOptions.value)
 }
 
 </script>
