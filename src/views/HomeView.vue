@@ -8,11 +8,11 @@ import ProductsList from '@/components/ProductsList.vue'
 
 import { GET_PRODUCTS, GET_PRODUCTS_BY_CATEGORY } from '@/utils/network'
 
-import { ProductType } from '@/types/index'
+import { FilterOptionsType, ProductType } from '@/types/index'
 
 const products = ref<ProductType[]>([])
 const filterProducts = ref<ProductType[]>([])
-const contegory = ref('')
+const currentCategory = ref('')
 const loading = ref(true)
 
 onMounted(async () => {
@@ -21,25 +21,25 @@ onMounted(async () => {
   loading.value = false
 })
 
-watch(contegory, async () => {
+watch(currentCategory, async () => {
   loading.value = true
-  products.value = await GET_PRODUCTS_BY_CATEGORY(contegory.value)
+  products.value = await GET_PRODUCTS_BY_CATEGORY(currentCategory.value)
   filterProducts.value = [...products.value]
   loading.value = false
 })
 
-const filter = (filterOptions: any) => {
+const filter = (filterOptions: FilterOptionsType) => {
   filterProducts.value = products.value.filter(product =>
-    product.price >= filterOptions.value.price.min &&
-    product.price <= filterOptions.value.price.max &&
-    product.rating.rate >= filterOptions.value.rating
+    product.price >= filterOptions.price.min &&
+    product.price <= filterOptions.price.max &&
+    product.rating.rate >= filterOptions.rating
   )
 }
 </script>
 
 <template>
-  <AppHeader @change-category="contegory = $event" />
-  <div class="content">
+  <AppHeader @change-category="currentCategory = $event" />
+  <div class="container">
     <AsideBar @change-filter="filter" />
     <div class="wrapper">
       <main class="main">
@@ -51,7 +51,7 @@ const filter = (filterOptions: any) => {
 </template>
 
 <style lang="scss" scoped>
-.content {
+.container {
   display: flex;
 }
 
