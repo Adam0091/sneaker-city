@@ -1,7 +1,7 @@
 <template>
-    <div class="app">
-        <router-view />
-    </div>
+  <div class="app">
+    <router-view />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -10,14 +10,14 @@ import '@/assets/fonts/GoogleSans/main.css'
 
 <style>
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 
-    font-family: 'Google Sans';
+  font-family: 'Google Sans';
 }
 
 .app {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 </style>
