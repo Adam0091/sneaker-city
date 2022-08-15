@@ -11,7 +11,7 @@
       </div>
       <div class="footer__telephon">
         <span>Support line: </span>
-        <a href="tel:+250 788 467 808">+250 788 467 808</a>
+        <a href="tel:+250788467808">+250 788 467 808</a>
       </div>
     </div>
     <div class="footer__column footer__license">
