@@ -1,5 +1,5 @@
 <template>
-  <div class="product">
+  <div class="product" @click="$emit('productClick', product)">
     <div class="product__image">
       <img :src="product.image" :alt="product.title">
     </div>
