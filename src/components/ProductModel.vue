@@ -12,7 +12,7 @@
             </div>
           </div>
 
-          <div class="product__add-favorite" :class="{ 'product__add-favorite--active': ifFavoriteProduct }"
+          <div class="product__add-favorite" :class="{ 'product__add-favorite--active': isFavoriteProduct }"
             @click="handleFavorite">
             <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -77,13 +77,13 @@ const { product } = toRefs(props)
 const isHiddenDescription = ref(false)
 
 const favoriteStore = useFavoriteStore()
-const fakeArrayImages = ref(Array(4).fill(product.value.image))
-const ifFavoriteProduct = ref(false)
+const fakeArrayImages = Array(4).fill(product.value.image)
+const isFavoriteProduct = ref(false)
 
 onMounted(() => {
   const favoriteProducts = favoriteStore.favoritesProduct
   if (favoriteProducts.filter((item) => item.id === product.value.id).length !== 0) {
-    ifFavoriteProduct.value = true
+    isFavoriteProduct.value = true
   }
 })
 
@@ -91,12 +91,12 @@ const handleArrow = () => {
   isHiddenDescription.value = !isHiddenDescription.value
 }
 const handleFavorite = () => {
-  if (ifFavoriteProduct.value) {
+  if (isFavoriteProduct.value) {
     favoriteStore.removeFavoriteProduct(product.value)
-    ifFavoriteProduct.value = false
+    isFavoriteProduct.value = false
   } else {
     favoriteStore.addFavoriteProduct(product.value)
-    ifFavoriteProduct.value = true
+    isFavoriteProduct.value = true
   }
 }
 </script>
@@ -268,7 +268,6 @@ const handleFavorite = () => {
   &__text {
     margin-top: 18px;
 
-    font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
