@@ -1,5 +1,12 @@
+import { createPinia } from 'pinia'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import { getLocalStorage } from '@/utils/localStorage'
 
-createApp(App).use(router).mount('#app')
+const pinia = createPinia()
+pinia.use(({ store }) => {
+  store.favoritesProduct = getLocalStorage('favoriteStore')
+})
+
+createApp(App).use(router).use(pinia).mount('#app')
