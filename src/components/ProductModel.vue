@@ -18,7 +18,7 @@
         </div>
 
         <div class="product__slider-images">
-          <img :src="product.image" :alt="product.title">
+          <UiSliderImage :images="fakeArrayImages" />
         </div>
       </div>
 
@@ -43,15 +43,8 @@
         </div>
 
         <div class="product-model__add-to-card">
-          <div class="add-to-card__couter">
-            <button class="couter__button">-</button>
-            <div class="couter__input-wrapper">
-              <input class="couter__input" type="number" min="0" max="999" value="1">
-            </div>
-            <button class="couter__button">+</button>
-          </div>
-
-          <button class="add-to-card__button">Add to card</button>
+          <UiCounter />
+          <UiButton text="Add to card" />
         </div>
       </div>
     </div>
@@ -59,8 +52,11 @@
 </template>
 
 <script setup lang="ts">
+import UiButton from '@/components/UI/UiButton.vue'
 import { ProductType } from '@/types'
 import { defineProps, ref, toRefs } from 'vue'
+import UiCounter from '@/components/UI/UiCounter.vue'
+import UiSliderImage from '@/components/UI/UiSliderImage.vue'
 
 type TProps = {
   product: ProductType,
@@ -70,9 +66,10 @@ const props = defineProps<TProps>()
 const { product } = toRefs(props)
 const isHiddenDescription = ref(false)
 
+const fakeArrayImages = ref(Array(4).fill(product.value.image))
+
 const handleArrow = () => {
   isHiddenDescription.value = !isHiddenDescription.value
-  console.log("handleArrow")
 }
 </script>
 
@@ -91,34 +88,45 @@ const handleArrow = () => {
   background: rgba(196, 196, 196, 0.3);
 
   &__container {
-    max-width: 1440px;
+    max-width: 90%;
     min-height: 300px;
+    max-height: 90%;
     width: 100%;
+    height: 100%;
 
     background: white;
 
     display: flex;
+    justify-content: center;
   }
 
   &__product {
-    padding: 96px 65px 96px 64px;
+    padding: 30px 65px 30px 64px;
     flex: 66% 0 1;
+
     background: rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
   }
 
   &__description {
+    flex: 34% 0 1;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
     padding: 32px 64px;
-    flex: 34% 0 1;
   }
 
   &__add-to-card {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     column-gap: 20px;
+    row-gap: 20px;
   }
 }
 
@@ -134,7 +142,6 @@ const handleArrow = () => {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    max-width: 420px;
   }
 
   &__name {
@@ -171,13 +178,9 @@ const handleArrow = () => {
   }
 
   &__slider-images {
-    max-width: 300px;
-    max-height: 600px;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
+    max-width: 47vw;
+    height: 100%;
+    overflow: hidden;
   }
 }
 
@@ -237,90 +240,6 @@ const handleArrow = () => {
     line-height: 24px;
 
     color: rgba(0, 0, 0, 0.65);
-
-  }
-}
-
-.add-to-card {
-
-  &__couter {
-    display: flex;
-    align-items: center;
-    column-gap: 5px;
-  }
-
-  &__button {
-    width: 135px;
-    height: 44px;
-
-    background: #D90429;
-    border: none;
-    outline: none;
-
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 24px;
-
-    color: #FFFFFF;
-    cursor: pointer;
-    transition: all 0.2s;
-
-    &:hover {
-      background: #c95c6e;
-    }
-  }
-}
-
-.couter {
-  &__button {
-    width: 48px;
-    height: 48px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    outline: none;
-    border: none;
-    border-radius: 8px;
-    background: none;
-
-    font-weight: 400;
-    font-size: 22px;
-    line-height: 24px;
-
-    color: #000000;
-    cursor: pointer;
-    transition: all 0.2s;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.04);
-    }
-  }
-
-  &__input-wrapper {
-
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
-
-  &__input {
-    text-align: center;
-
-    max-width: 48px;
-    height: 48px;
-    background: #FFFFFF;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-
-    color: #000000;
   }
 }
 </style>
