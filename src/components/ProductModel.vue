@@ -12,8 +12,14 @@
             </div>
           </div>
 
-          <div class="product__add-favorite">
-            <img src="@/assets/images/favorite.png" alt="add to favorite">
+          <div class="product__add-favorite" :class="{ 'product__add-favorite--active': ifFavoriteProduct }"
+            @click="handleFavorite">
+            <svg width="24" height="22" viewBox="0 0 24 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M20.8401 3.60999C20.3294 3.099 19.7229 2.69364 19.0555 2.41708C18.388 2.14052 17.6726 1.99817 16.9501 1.99817C16.2276 1.99817 15.5122 2.14052 14.8448 2.41708C14.1773 2.69364 13.5709 3.099 13.0601 3.60999L12.0001 4.66999L10.9401 3.60999C9.90843 2.5783 8.50915 1.9987 7.05012 1.9987C5.59109 1.9987 4.19181 2.5783 3.16012 3.60999C2.12843 4.64169 1.54883 6.04096 1.54883 7.49999C1.54883 8.95903 2.12843 10.3583 3.16012 11.39L4.22012 12.45L12.0001 20.23L19.7801 12.45L20.8401 11.39C21.3511 10.8792 21.7565 10.2728 22.033 9.60535C22.3096 8.93789 22.4519 8.22248 22.4519 7.49999C22.4519 6.77751 22.3096 6.0621 22.033 5.39464C21.7565 4.72718 21.3511 4.12075 20.8401 3.60999V3.60999Z"
+                stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+
           </div>
         </div>
 
@@ -52,11 +58,15 @@
 </template>
 
 <script setup lang="ts">
+import { defineProps, onMounted, ref, toRefs } from 'vue'
+
+import { useFavoriteStore } from '@/stores/favoritesStore'
+
 import UiButton from '@/components/UI/UiButton.vue'
-import { ProductType } from '@/types'
-import { defineProps, ref, toRefs } from 'vue'
 import UiCounter from '@/components/UI/UiCounter.vue'
 import UiSliderImage from '@/components/UI/UiSliderImage.vue'
+
+import { ProductType } from '@/types'
 
 type TProps = {
   product: ProductType,
@@ -66,10 +76,28 @@ const props = defineProps<TProps>()
 const { product } = toRefs(props)
 const isHiddenDescription = ref(false)
 
+const favoriteStore = useFavoriteStore()
 const fakeArrayImages = ref(Array(4).fill(product.value.image))
+const ifFavoriteProduct = ref(false)
+
+onMounted(() => {
+  const favoriteProducts = favoriteStore.favoritesProduct
+  if (favoriteProducts.filter((item) => item.id === product.value.id).length !== 0) {
+    ifFavoriteProduct.value = true
+  }
+})
 
 const handleArrow = () => {
   isHiddenDescription.value = !isHiddenDescription.value
+}
+const handleFavorite = () => {
+  if (ifFavoriteProduct.value) {
+    favoriteStore.removeFavoriteProduct(product.value)
+    ifFavoriteProduct.value = false
+  } else {
+    favoriteStore.addFavoriteProduct(product.value)
+    ifFavoriteProduct.value = true
+  }
 }
 </script>
 
@@ -171,6 +199,12 @@ const handleArrow = () => {
 
     cursor: pointer;
     transition: all 0.2s;
+
+    &--active {
+      svg path {
+        fill: rgb(237, 83, 83);
+      }
+    }
 
     &:hover {
       transform: scale(1.1);
