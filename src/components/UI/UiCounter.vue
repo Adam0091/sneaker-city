@@ -29,7 +29,6 @@ const inputChange = (event: Event) => {
   } else if (value >= 1000) {
     count.value = 999
   }
-  console.log(count.value)
 }
 
 </script>
