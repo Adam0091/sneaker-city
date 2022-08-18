@@ -10,6 +10,10 @@ export type ProductType = {
   }
 }
 
+export type BasketProductType = {
+  amount: number
+} & ProductType
+
 export type FilterOptionsType = {
   price: {
     min: number,
