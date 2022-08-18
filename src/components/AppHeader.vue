@@ -13,7 +13,11 @@
         <ul class="nav__list">
           <li
             class="nav__item"
-            :class="{ 'nav__item--active': route.params.category === category }"
+            :class="{
+              'nav__item--active':
+                route.params.category === category ||
+                (!route.params.category && category === categoriesEnums.All),
+            }"
             v-for="category in categories"
             :key="category"
             @click.prevent="handleCategory(category)"
@@ -52,6 +56,8 @@ const emit = defineEmits(["changeCategory"])
 
 const router = useRouter()
 const route = useRoute()
+
+console.log(route.params.category)
 
 onMounted(async () => {
   const res = await GET_CATEGORIES()
