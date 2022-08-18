@@ -4,7 +4,6 @@ import { defineStore } from 'pinia'
 
 export const useFavoriteStore = defineStore('favorite', {
   state: () => ({
-    hello: '',
     favoritesProduct: [] as ProductType[]
   }),
   actions: {
