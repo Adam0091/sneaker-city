@@ -1,32 +1,38 @@
 <template>
   <header class="header">
     <div class="header__container">
-      <div class="header__logo">
-        <router-link to="/">
-          <div class="header__wrapper-img">
-            <img src="@/assets/images/headerLogo.png" alt="logo">
-          </div>
-        </router-link>
+      <div class="header__logo" @click="handleCategory(categoriesEnums.All)">
+        <div class="header__wrapper-img">
+          <img src="@/assets/images/headerLogo.png" alt="logo" />
+        </div>
+
         <h1 class="header__title">SC.</h1>
       </div>
 
       <nav class="header__nav">
         <ul class="nav__list">
-          <li class="nav__item" :class="{ 'nav__item--active': activeCategory === category }"
-            v-for="category in categories" :key="category" @click.prevent="handleCategory(category)">
+          <li
+            class="nav__item"
+            :class="{ 'nav__item--active': route.params.category === category }"
+            v-for="category in categories"
+            :key="category"
+            @click.prevent="handleCategory(category)"
+          >
             {{ category }}
           </li>
         </ul>
 
         <ul class="nav__logos">
           <li class="nav__logo">
-            <img src="@/assets/images/shoppingCartLogo.svg" alt="basket">
+            <router-link to="/basket">
+              <img src="@/assets/images/shoppingCartLogo.svg" alt="basket" />
+            </router-link>
           </li>
           <li class="nav__logo">
-            <img src="@/assets/images/favoriteLogo.svg" alt="favorite">
+            <img src="@/assets/images/favoriteLogo.svg" alt="favorite" />
           </li>
           <li class="nav__logo">
-            <img src="@/assets/images/userLogo.svg" alt="profile">
+            <img src="@/assets/images/userLogo.svg" alt="profile" />
           </li>
         </ul>
       </nav>
@@ -35,14 +41,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, defineEmits } from 'vue'
+import { onMounted, ref, defineEmits } from "vue"
 
-import { GET_CATEGORIES } from '@/utils/network'
-import { categoriesEnums } from '@/types/enums'
+import { GET_CATEGORIES } from "@/utils/network"
+import { categoriesEnums } from "@/types/enums"
+import { useRoute, useRouter } from "vue-router"
 
 const categories = ref<string[]>([categoriesEnums.All])
-const activeCategory = ref<string>(categoriesEnums.All)
-const emit = defineEmits(['changeCategory'])
+const emit = defineEmits(["changeCategory"])
+
+const router = useRouter()
+const route = useRoute()
 
 onMounted(async () => {
   const res = await GET_CATEGORIES()
@@ -52,10 +61,9 @@ onMounted(async () => {
 })
 
 const handleCategory = (category: string) => {
-  activeCategory.value = category
-  emit('changeCategory', category)
+  emit("changeCategory", category)
+  router.push(`/${category}`)
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -64,6 +72,7 @@ const handleCategory = (category: string) => {
     display: flex;
     padding: 26px 64px 16px 64px;
     border: 1px solid rgba(0, 0, 0, 0.15);
+    text-decoration: none;
   }
 
   &__logo {
@@ -96,7 +105,6 @@ const handleCategory = (category: string) => {
 }
 
 .nav {
-
   &__list {
     list-style: none;
     display: flex;
