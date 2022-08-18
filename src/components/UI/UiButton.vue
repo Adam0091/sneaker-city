@@ -1,5 +1,5 @@
 <template>
-  <button class="button">{{ text }}</button>
+  <button class="button" :style="{ width: width }" :disabled="disabled">{{ text }}</button>
 </template>
 
 <script setup lang="ts">
@@ -7,15 +7,16 @@ import { defineProps, toRefs } from 'vue'
 
 type TProps = {
   text: string,
+  width: string,
+  disabled: boolean,
 }
 
 const props = defineProps<TProps>()
-const { text } = toRefs(props)
+const { text, width, disabled } = toRefs(props)
 </script>
 
 <style lang="scss" scoped>
 .button {
-  width: 135px;
   height: 44px;
 
   background: #D90429;
@@ -32,6 +33,10 @@ const { text } = toRefs(props)
 
   &:hover {
     background: #c95c6e;
+  }
+  &:disabled{
+  background: #ca4057;
+  color: #c59595;
   }
 }
 </style>
