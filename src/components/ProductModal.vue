@@ -1,6 +1,6 @@
 <template>
   <Transition name="modal">
-    <div v-if="show" class="product-modal" @click="$emit('close')">
+    <div class="product-modal" @click="$emit('close')">
       <div class="product-modal__container" @click.stop>
         <div class="product-modal__product">
           <div class="product__header">
@@ -101,11 +101,10 @@ import { useBasketStore } from "@/stores/basketStore"
 
 type TProps = {
   product: ProductType;
-  show: boolean;
 };
 
 const props = defineProps<TProps>()
-const { product, show } = toRefs(props)
+const { product } = toRefs(props)
 
 const basketStore = useBasketStore()
 const favoriteStore = useFavoriteStore()
