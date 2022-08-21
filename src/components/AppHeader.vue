@@ -26,7 +26,7 @@
 
         <ul class="nav__logos">
           <li class="nav__logo">
-            <router-link to="/basket">
+            <router-link :to="BASKET_PATH">
               <img src="@/assets/images/shoppingCartLogo.svg" alt="basket" />
             </router-link>
           </li>
@@ -49,7 +49,7 @@ import { GET_CATEGORIES } from "@/utils/network"
 import { categoriesEnums } from "@/types/enums"
 import { useRoute, useRouter } from "vue-router"
 
-import { HOME_PATH } from "@/constants/routes"
+import { HOME_PATH, BASKET_PATH } from "@/constants/routes"
 
 const categories = ref<string[]>([categoriesEnums.All])
 const emit = defineEmits(["changeCategory"])
