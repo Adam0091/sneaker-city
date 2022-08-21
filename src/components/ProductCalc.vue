@@ -8,7 +8,7 @@
       <div class="product-calc__calculations">
         <div class="calculations__item">
           <span class="calculations__title">Sub total</span>
-          <span class="calculations__value">{{ (totalSum).toFixed(2) }} RWF</span>
+          <span class="calculations__value">{{ totalSum.toFixed(2) }} RWF</span>
         </div>
 
         <div class="calculations__item">
@@ -18,33 +18,47 @@
       </div>
 
       <div class="product-calc__total-price">
-        <span>{{ (totalSum).toFixed(2) }} RWF</span>
+        <span>{{ totalSum.toFixed(2) }} RWF</span>
       </div>
 
       <div class="product-calc__button">
-        <UiButton width="217px" text="Proceed to checkout" :disabled="false" />
+        <UiButton
+          width="217px"
+          text="Proceed to checkout"
+          :disabled="false"
+          @click="handleProceedCheckout"
+        />
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { toRefs, defineProps } from 'vue'
-import UiButton from './UI/UiButton.vue'
+import { useBasketStore } from "@/stores/basketStore"
+import { toRefs, defineProps } from "vue"
+import { useRouter } from "vue-router"
+import UiButton from "./UI/UiButton.vue"
 
 type TProps = {
-  totalSum: number
-}
+  totalSum: number;
+};
+
+const basketStore = useBasketStore()
+const router = useRouter()
 
 const props = defineProps<TProps>()
 const { totalSum } = toRefs(props)
+
+const handleProceedCheckout = () => {
+  basketStore.clearBasket()
+  router.push("/all")
+}
 </script>
 
 <style lang="scss" scoped>
 .product-calc {
-
-  &__container {}
+  &__container {
+  }
 
   &__title {
     font-weight: 400;
@@ -83,7 +97,6 @@ const { totalSum } = toRefs(props)
 }
 
 .calculations {
-
   &__item {
     display: flex;
     justify-content: space-between;
