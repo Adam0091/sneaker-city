@@ -49,13 +49,13 @@ import { GET_CATEGORIES } from "@/utils/network"
 import { categoriesEnums } from "@/types/enums"
 import { useRoute, useRouter } from "vue-router"
 
+import { HOME_PATH } from "@/constants/routes"
+
 const categories = ref<string[]>([categoriesEnums.All])
 const emit = defineEmits(["changeCategory"])
 
 const router = useRouter()
 const route = useRoute()
-
-console.log(route.params.category)
 
 onMounted(async () => {
   const res = await GET_CATEGORIES()
@@ -72,7 +72,7 @@ const handleCategory = (category: string) => {
 const isActiveCategory = (category: string) => {
   return (
     route.params.category === category ||
-    (!route.params.category && category === categoriesEnums.All)
+    (route.path === HOME_PATH && category === categoriesEnums.All)
   )
 }
 </script>
