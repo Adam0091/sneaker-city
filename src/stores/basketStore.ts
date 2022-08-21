@@ -20,6 +20,10 @@ export const useBasketStore = defineStore('basket', {
       const index = this.basket.findIndex((product) => product.id === productID)
       this.basket[index].amount = value
       setLocalStorage('basketStore', this.basket)
+    },
+    clearBasket () {
+      this.basket = [] as BasketProductType[]
+      setLocalStorage('basketStore', this.basket)
     }
   }
 })
