@@ -1,18 +1,19 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import BasketView from '@/views/BasketView.vue'
+import { BASKET_PATH, HOME_CATEGORY_PATH, HOME_PATH } from '@/constants/routes'
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
+    path: HOME_PATH,
     component: HomeView
   },
   {
-    path: '/:category',
+    path: HOME_CATEGORY_PATH,
     component: HomeView
   },
   {
-    path: '/basket',
+    path: BASKET_PATH,
     component: BasketView
   }
 ]
