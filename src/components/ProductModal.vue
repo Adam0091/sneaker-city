@@ -74,12 +74,7 @@
               :min="0"
               :max="1000"
             />
-            <UiButton
-              @click="handleAddProduct"
-              text="Add to card"
-              width="135px"
-              :disabled="false"
-            />
+            <UiButton @click="handleAddProduct" text="Add to card" width="135px" />
           </div>
         </div>
       </div>

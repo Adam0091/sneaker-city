@@ -25,7 +25,6 @@
         <UiButton
           width="217px"
           text="Proceed to checkout"
-          :disabled="false"
           @click="handleProceedCheckout"
         />
       </div>
