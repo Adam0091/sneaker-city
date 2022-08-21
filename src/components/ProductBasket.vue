@@ -34,18 +34,19 @@ import { onMounted, ref, watch } from "vue"
 const basketStore = useBasketStore()
 const totalSum = ref(0)
 
-onMounted(() => {
+const updateBasketStore = () => {
   totalSum.value = 0
   basketStore.basket.forEach(
     (product) => (totalSum.value += product.amount * product.price)
   )
+}
+
+onMounted(() => {
+  updateBasketStore()
 })
 
 watch(basketStore, () => {
-  totalSum.value = 0
-  basketStore.basket.forEach(
-    (product) => (totalSum.value += product.amount * product.price)
-  )
+  updateBasketStore()
 })
 </script>
 

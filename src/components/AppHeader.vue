@@ -14,9 +14,7 @@
           <li
             class="nav__item"
             :class="{
-              'nav__item--active':
-                route.params.category === category ||
-                (!route.params.category && category === categoriesEnums.All),
+              'nav__item--active': isActiveCategory(category),
             }"
             v-for="category in categories"
             :key="category"
@@ -69,6 +67,13 @@ onMounted(async () => {
 const handleCategory = (category: string) => {
   emit("changeCategory", category)
   router.push(`/${category}`)
+}
+
+const isActiveCategory = (category: string) => {
+  return (
+    route.params.category === category ||
+    (!route.params.category && category === categoriesEnums.All)
+  )
 }
 </script>
 

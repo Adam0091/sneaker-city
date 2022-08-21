@@ -1,17 +1,21 @@
 <template>
-  <button class="button" :style="{ width: width }" :disabled="disabled">{{ text }}</button>
+  <button class="button" :style="{ width: width }" :disabled="disabled">
+    {{ text }}
+  </button>
 </template>
 
 <script setup lang="ts">
-import { defineProps, toRefs } from 'vue'
+import { defineProps, toRefs, withDefaults } from "vue"
 
 type TProps = {
-  text: string,
-  width: string,
-  disabled: boolean,
-}
+  text: string;
+  width: string;
+  disabled?: boolean;
+};
 
-const props = defineProps<TProps>()
+const props = withDefaults(defineProps<TProps>(), {
+  disabled: false
+})
 const { text, width, disabled } = toRefs(props)
 </script>
 
@@ -19,7 +23,7 @@ const { text, width, disabled } = toRefs(props)
 .button {
   height: 44px;
 
-  background: #D90429;
+  background: #d90429;
   border: none;
   outline: none;
 
@@ -27,16 +31,16 @@ const { text, width, disabled } = toRefs(props)
   font-size: 16px;
   line-height: 24px;
 
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
     background: #c95c6e;
   }
-  &:disabled{
-  background: #ca4057;
-  color: #c59595;
+  &:disabled {
+    background: #ca4057;
+    color: #c59595;
   }
 }
 </style>

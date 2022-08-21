@@ -145,7 +145,7 @@ const handleAddProduct = () =>
     Object.assign({ amount: amountProduct.value }, product.value)
   )
 const handleDeleteProduct = () => basketStore.removeBasketProduct(product.value.id)
-const handleArrow = () => basketStore.changeAmount(product.value.id, amountProduct.value)
+const handleArrow = () => (isHiddenDescription.value = !isHiddenDescription.value)
 const handleFavorite = () => {
   if (isFavoriteProduct.value) {
     favoriteStore.removeFavoriteProduct(product.value)
