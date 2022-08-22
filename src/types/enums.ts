@@ -1,4 +1,4 @@
-export enum categoriesEnums {
+export enum СategoriesEnums {
   ALL = 'all',
   ELECTRONICS = 'electronics',
   JEWELERY = 'jewelery',
