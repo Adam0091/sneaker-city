@@ -2,35 +2,51 @@
   <div class="couter">
     <button class="couter__button" @click="changeCounter(-1)">-</button>
     <div class="couter__input-wrapper">
-      <input class="couter__input" type="number" v-model.number="count" @input="inputChange">
+      <input
+        class="couter__input"
+        type="number"
+        v-model.number="localCount"
+        @input="inputChange"
+      />
     </div>
     <button class="couter__button" @click="changeCounter(1)">+</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { defineEmits, ref, defineProps, toRefs } from "vue"
 
-const count = ref(1)
+type TProps = {
+  count: number;
+  min: number;
+  max: number;
+};
+const props = defineProps<TProps>()
+const { count, min, max } = toRefs(props)
+
+const emit = defineEmits(["updateCount"])
+const localCount = ref(count.value)
 
 const changeCounter = (value: number) => {
-  if (count.value + value > 0 && count.value + value < 1000) {
-    count.value = count.value + value
+  if (localCount.value + value > min.value && localCount.value + value < max.value) {
+    localCount.value = localCount.value + value
   }
+  emit("updateCount", localCount.value)
 }
 
 const inputChange = (event: Event) => {
   const target = event.target as HTMLInputElement
   const value = Number(target.value)
-  if (value > 0 && value < 1000) {
-    count.value = value
-  } else if (value <= 0) {
-    count.value = 1
-  } else if (value >= 1000) {
-    count.value = 999
+  if (value > min.value && value < max.value) {
+    localCount.value = value
+  } else if (value <= min.value) {
+    localCount.value = min.value + 1
+  } else if (value >= max.value) {
+    localCount.value = max.value - 1
   }
-}
 
+  emit("updateCount", localCount.value)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -66,7 +82,6 @@ const inputChange = (event: Event) => {
   }
 
   &__input-wrapper {
-
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
       -webkit-appearance: none;
@@ -79,7 +94,7 @@ const inputChange = (event: Event) => {
 
     max-width: 48px;
     height: 48px;
-    background: #FFFFFF;
+    background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 8px;
 

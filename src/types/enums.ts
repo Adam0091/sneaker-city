@@ -1,7 +1,7 @@
-export enum categoriesEnums {
-  All = 'all',
-  Electronics = 'electronics',
-  Jewelery = 'jewelery',
-  MenClothing = 'men`s clothing',
-  WomenClothing = 'women`s clothing'
+export enum СategoriesType {
+  ALL = 'all',
+  ELECTRONICS = 'electronics',
+  JEWELERY = 'jewelery',
+  MEN_СLOTHING = 'men`s clothing',
+  WOMEN_СLOTHING = 'women`s clothing'
 }
