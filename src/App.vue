@@ -1,11 +1,11 @@
 <template>
-  <div class="app">
+  <div>
     <router-view />
   </div>
 </template>
 
 <script setup lang="ts">
-import '@/assets/fonts/GoogleSans/main.css'
+import "@/assets/fonts/GoogleSans/main.css"
 </script>
 
 <style>
@@ -14,10 +14,10 @@ import '@/assets/fonts/GoogleSans/main.css'
   padding: 0;
   box-sizing: border-box;
 
-  font-family: 'Google Sans';
+  font-family: "Google Sans";
 }
 
-.app {
+#app {
   min-height: 100vh;
 }
 </style>
