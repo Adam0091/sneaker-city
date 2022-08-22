@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="header__container">
-      <div class="header__logo" @click="handleCategory(categoriesEnums.All)">
+      <div class="header__logo" @click="handleCategory(categoriesEnums.ALL)">
         <div class="header__wrapper-img">
           <img src="@/assets/images/headerLogo.png" alt="logo" />
         </div>
@@ -26,7 +26,7 @@
 
         <ul class="nav__logos">
           <li class="nav__logo">
-            <router-link :to="BASKET_PATH">
+            <router-link :to="routePath.basket.path">
               <img src="@/assets/images/shoppingCartLogo.svg" alt="basket" />
             </router-link>
           </li>
@@ -49,9 +49,9 @@ import { GET_CATEGORIES } from "@/utils/network"
 import { categoriesEnums } from "@/types/enums"
 import { useRoute, useRouter } from "vue-router"
 
-import { HOME_PATH, BASKET_PATH } from "@/constants/routes"
+import { routePath } from "@/constants/routes"
 
-const categories = ref<string[]>([categoriesEnums.All])
+const categories = ref<string[]>([categoriesEnums.ALL])
 const emit = defineEmits(["changeCategory"])
 
 const router = useRouter()
@@ -72,7 +72,7 @@ const handleCategory = (category: string) => {
 const isActiveCategory = (category: string) => {
   return (
     route.params.category === category ||
-    (route.path === HOME_PATH && category === categoriesEnums.All)
+    (route.path === routePath.home.path && category === categoriesEnums.ALL)
   )
 }
 </script>

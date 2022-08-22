@@ -1,3 +1,5 @@
-export const HOME_PATH = '/'
-export const HOME_CATEGORY_PATH = '/:category'
-export const BASKET_PATH = '/basket'
+export const routePath = {
+  home: { path: '/' },
+  category: { path: '/:category' },
+  basket: { path: '/basket' }
+}
